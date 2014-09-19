@@ -74,6 +74,25 @@ Check out the [coreos-cloudinit documentation][coreos-cloudinit] to learn about 
 
 [coreos-cloudinit]: https://github.com/coreos/coreos-cloudinit
 
+#### Discovery token 
+
+A simple perl script to automate this chore
+
+```perl
+$ DISCOVERY_TOKEN=`curl -s https://discovery.etcd.io/new` && perl -p -e "s@#discovery: https://discovery.etcd.io/<token>@discovery: $DISCOVERY_TOKEN@g" user-data.sample > user-data
+```
+
+Manually, you can edit the `user-data` file, by previously generating a new discovery token. This is unique for each defined cluster from https://discovery.etcd.io/new
+
+```bash
+$ curl -s https://discovery.etcd.io/new
+```
+And inside the `user-data` file, 
+```ruby
+  ...
+  discovery: https://discovery.etcd.io/<token>
+```
+
 #### Configuration
 
 The Vagrantfile will parse a `config.rb` file containing a set of options used to configure your CoreOS cluster.
